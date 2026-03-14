@@ -1,5 +1,5 @@
 package machine
-class MySuite extends munit.FunSuite {
+class InstructionTestSuite extends munit.FunSuite {
 
   test("xdv divides x by 2^combo_operand") {
     // default ip = 0
@@ -10,6 +10,15 @@ class MySuite extends munit.FunSuite {
     assertEquals(newRegs.x, 4)
     assertEquals(newRegs.ip, 2)
   }
+
+  test("xdv truncates") {
+    // 10 / 4 = 2.5 trunc to 2
+    val regs1 = Registers(x = 10, y = 0, z = 0, ip = 0)
+    val newRegs1 = Instructions.execute(0, 2, regs1)
+    assertEquals(newRegs1.x, 2)
+    assertEquals(newRegs1.ip, 2)
+  }
+
   test("yxl with literal operand") {
     val regs = Registers(x = 0, y = 5, z = 0, ip = 0)
     // opcode 1
