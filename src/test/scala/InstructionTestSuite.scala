@@ -1,13 +1,21 @@
 package machine
 class MySuite extends munit.FunSuite {
 
-  test("xdv divides X by 2^combo_operand") {
+  test("xdv divides x by 2^combo_operand") {
     // default ip = 0
     val regs = Registers(x = 16, y = 0, z = 0)
     // opcode 0
     // div 2^2 as given in the example
     val newRegs = Instructions.execute(0, 2, regs)
     assertEquals(newRegs.x, 4)
+    assertEquals(newRegs.ip, 2)
+  }
+  test("yxl with literal operand") {
+    val regs = Registers(x = 0, y = 5, z = 0, ip = 0)
+    // opcode 1
+    val newRegs = Instructions.execute(1, 3, regs)
+    // 5 ^ 3 = 6
+    assertEquals(newRegs.y, 6)
     assertEquals(newRegs.ip, 2)
   }
 }
