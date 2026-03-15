@@ -7,14 +7,16 @@ object Instructions {
         val shift = Operand.combo(operand, r).toInt
         r.copy(
           x = r.x >> shift,
+          y = r.y,
+          z = r.z,
           ip = r.ip + 2
         )
       case 1 => // yxl
         val xor = Operand.literal(operand) ^ r.y
-        r.copy(x = r.x, y = xor, ip = r.ip + 2)
+        r.copy(x = r.x, y = xor, z = r.z, ip = r.ip + 2)
       case 2 => // yst
         val mod8 = Operand.combo(operand, r).toInt % 8
-        r.copy(x = r.x, y = mod8, ip = r.ip + 2)
+        r.copy(x = r.x, y = mod8, z = r.z, ip = r.ip + 2)
       case _: Int => r
     }
 
