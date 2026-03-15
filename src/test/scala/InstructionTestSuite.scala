@@ -27,4 +27,10 @@ class InstructionTestSuite extends munit.FunSuite {
     assertEquals(newRegs.y, 6)
     assertEquals(newRegs.ip, 2)
   }
+  test("yst with combo operand") {
+    val regs = Registers(x = 0, y = 0, z = 9, ip = 0)
+    val newRegs = Instructions.execute(2, 6, regs)
+    assertEquals(newRegs.y, 1)
+    assertEquals(newRegs.ip, 2)
+  }
 }
