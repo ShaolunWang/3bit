@@ -5,8 +5,9 @@ object Instructions {
     opcode match {
       case 0 => // xdv
         val shift = Operand.combo(operand, r).toInt
+        val res = r.x >> shift
         r.copy(
-          x = r.x >> shift,
+          x = res,
           y = r.y,
           z = r.z,
           ip = r.ip + 2
@@ -30,6 +31,14 @@ object Instructions {
         val combo = Operand.combo(operand, r) % 8
         val out = r.out.appended(combo)
         r.copy(x = r.x, y = r.y, z = r.z, ip = r.ip + 2, out)
+      case 6 => // ydv
+        val shift = Operand.combo(operand, r).toInt
+        val res = r.x >> shift
+        r.copy(x = r.x, y = res, ip = r.ip + 2)
+      case 7 => // zdv
+        val shift = Operand.combo(operand, r).toInt
+        val res = r.x >> shift
+        r.copy(x = r.x, y = r.y, z = res, ip = r.ip + 2)
       case _: Int => r
     }
 

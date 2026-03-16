@@ -1,7 +1,7 @@
 package machine
 class InstructionTestSuite extends munit.FunSuite {
 
-  test("xdv divides x by 2^combo_operand") {
+  test("xdv divides x by 2^combo, writes to X") {
     // default ip = 0
     val regs = Registers(x = 16, y = 0, z = 0)
     // opcode 0
@@ -63,5 +63,42 @@ class InstructionTestSuite extends munit.FunSuite {
     // 9 % 8
     assertEquals(newRegs.out, Vector(1))
     assertEquals(newRegs.ip, 2)
+  }
+  test("ydv divides X by 2^combo, writes to Y") {
+    val regs = Registers(x = 20, y = 0, z = 0, ip = 0)
+    val newRegs = Instructions.execute(6, 2, regs)
+    // x,z should be unchanged
+    assertEquals(newRegs.x, 20)
+    assertEquals(newRegs.y, 5)
+    assertEquals(newRegs.z, 0)
+    assertEquals(newRegs.ip, 2)
+  }
+  test("ydv using reg y value") {
+    val regs = Registers(x = 16, y = 2, z = 0, ip = 0)
+    val newRegs = Instructions.execute(6, 5, regs)
+    // denominator = 2^2 = 4
+    assertEquals(newRegs.y, 4)
+  }
+
+  test("zdv divides x by 2^combo, writes to Z") {
+    val regs = Registers(x = 32, y = 0, z = 0, ip = 0)
+
+    val newRegs = Instructions.execute(7, 3, regs)
+
+    // x,y should be unchanged
+    assertEquals(newRegs.x, 32)
+    assertEquals(newRegs.z, 4)
+    assertEquals(newRegs.y, 0)
+    assertEquals(newRegs.ip, 2)
+  }
+
+  test("zdv using reg x value") {
+    val regs = Registers(x = 3, y = 0, z = 0, ip = 0)
+
+    // 4 would use x value
+    // thus 2^3 = 8
+    val newRegs = Instructions.execute(7, 4, regs)
+    // trunc 3 / 8
+    assertEquals(newRegs.z, 0)
   }
 }
