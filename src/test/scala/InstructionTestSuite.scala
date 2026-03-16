@@ -33,4 +33,14 @@ class InstructionTestSuite extends munit.FunSuite {
     assertEquals(newRegs.y, 1)
     assertEquals(newRegs.ip, 2)
   }
+  test("jnz literal jump when x!=0") {
+    val regs = Registers(x = 5, y = 0, z = 0, ip = 0)
+    val newRegs = Instructions.execute(3, 6, regs)
+    assertEquals(newRegs.ip, 6)
+  }
+  test("jnz continue on x=0") {
+    val regs = Registers(x = 0, y = 0, z = 0, ip = 0)
+    val newRegs = Instructions.execute(3, 6, regs)
+    assertEquals(newRegs.ip, 2)
+  }
 }
