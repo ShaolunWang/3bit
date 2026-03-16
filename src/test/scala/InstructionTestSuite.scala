@@ -43,4 +43,25 @@ class InstructionTestSuite extends munit.FunSuite {
     val newRegs = Instructions.execute(3, 6, regs)
     assertEquals(newRegs.ip, 2)
   }
+  test("yxz xors y and z, write to y") {
+    val regs = Registers(x = 0, y = 10, z = 5, ip = 0)
+    val newRegs = Instructions.execute(4, 123, regs)
+    assertEquals(newRegs.y, 10 ^ 5)
+    assertEquals(newRegs.z, 5)
+    assertEquals(newRegs.x, 0)
+    assertEquals(newRegs.ip, 2)
+  }
+  test("out outputs combo % 8") {
+    val regs = Registers(x = 0, y = 0, z = 0, ip = 0)
+    val newRegs = Instructions.execute(5, 3, regs)
+    assertEquals(newRegs.out, Vector(3))
+    assertEquals(newRegs.ip, 2)
+  }
+  test("out outputs reg % 8") {
+    val regs = Registers(x = 0, y = 0, z = 9, ip = 0)
+    val newRegs = Instructions.execute(5, 6, regs)
+    // 9 % 8
+    assertEquals(newRegs.out, Vector(1))
+    assertEquals(newRegs.ip, 2)
+  }
 }

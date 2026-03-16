@@ -23,6 +23,13 @@ object Instructions {
         else
           val literal = Operand.literal(operand)
           r.copy(x = r.x, y = r.y, z = r.z, ip = literal)
+      case 4 => // yxz
+        val xor = r.y ^ r.z
+        r.copy(x = r.x, y = xor, z = r.z, ip = r.ip + 2)
+      case 5 => // out
+        val combo = Operand.combo(operand, r) % 8
+        val out = r.out.appended(combo)
+        r.copy(x = r.x, y = r.y, z = r.z, ip = r.ip + 2, out)
       case _: Int => r
     }
 
