@@ -1,54 +1,56 @@
 package machine;
 // ALU eval
+// NOTE: the IP here is merely for jump evals
 object Instructions {
-  val XDV: (Int, Int, Int, Registers) => Int =
-    (opcode, operand, ip, r) => {
+  val XDV: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
       val shift = Operand.eval(Operand.combo(operand), r)
       val res = r.x >> shift
       res
     }
 
-  val YXL: (Int, Int, Int, Registers) => Int =
-    (opcode, operand, ip, r) => {
+  val YXL: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
       val res = Operand.literal(operand) ^ r.y
       res
     }
 
-  val YST: (Int, Int, Int, Registers) => Int =
-    (opcode, operand, ip, r) => {
+  val YST: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
       val res = Operand.eval(Operand.combo(operand), r) % 8
       res
     }
 
-  val JNZ: (Int, Int, Int, Registers) => Int =
-    (opcode, operand, ip, r) => {
+  val JNZ: (Int, Int, Registers) => Int =
+    (operand, ip, r) => {
       val res =
-        if r.x == 0 then ip + 2
+        if r.x == 0 then
+          ip // NOTE: we DONT have to update it here, it's done in IF
         else Operand.literal(operand)
       res
     }
 
-  val YXZ: (Int, Int, Int, Registers) => Int =
-    (opcode, operand, ip, r) => {
+  val YXZ: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
       val res = r.y ^ r.z
       res
     }
 
-  val OUT: (Int, Int, Int, Registers) => Int =
-    (opcode, operand, ip, r) => {
+  val OUT: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
       val res = Operand.eval(Operand.combo(operand), r) % 8
       res
     }
 
-  val YDV: (Int, Int, Int, Registers) => Int =
-    (opcode, operand, ip, r) => {
+  val YDV: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
       val shift = Operand.eval(Operand.combo(operand), r)
       val res = r.x >> shift
       res
     }
 
-  val ZDV: (Int, Int, Int, Registers) => Int =
-    (opcode, operand, ip, r) => {
+  val ZDV: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
       val shift = Operand.eval(Operand.combo(operand), r)
       val res = r.x >> shift
       res

@@ -32,33 +32,33 @@ def execute: Step = m =>
   val r = m.regs
   m.opcode match
     case 0 => // xdv
-      val res = Instructions.XDV(m.opcode, m.operand, m.ip, m.regs)
+      val res = Instructions.XDV(m.operand, m.ip, m.regs)
       m.copy(aluRes = res, phase = Phase.WB)
     case 1 => // yxl
-      val res = Instructions.YXL(m.opcode, m.operand, m.ip, m.regs)
+      val res = Instructions.YXL(m.operand, m.ip, m.regs)
       m.copy(aluRes = res, phase = Phase.WB)
     case 2 => // yst
-      val res = Instructions.YST(m.opcode, m.operand, m.ip, m.regs)
+      val res = Instructions.YST(m.operand, m.ip, m.regs)
       m.copy(aluRes = res, phase = Phase.WB)
 
     case 3 => // jnz
-      val res = Instructions.JNZ(m.opcode, m.operand, m.ip, m.regs)
+      val res = Instructions.JNZ(m.operand, m.ip, m.regs)
       m.copy(aluRes = res, ip = res, phase = Phase.WB)
 
     case 4 => // yxz
-      val res = Instructions.YXZ(m.opcode, m.operand, m.ip, m.regs)
+      val res = Instructions.YXZ(m.operand, m.ip, m.regs)
       m.copy(aluRes = res, phase = Phase.WB)
 
     case 5 => // out
-      val res = Instructions.OUT(m.opcode, m.operand, m.ip, m.regs)
+      val res = Instructions.OUT(m.operand, m.ip, m.regs)
       m.copy(aluRes = res, phase = Phase.WB)
 
     case 6 => // ydv
-      val res = Instructions.YDV(m.opcode, m.operand, m.ip, m.regs)
+      val res = Instructions.YDV(m.operand, m.ip, m.regs)
       m.copy(aluRes = res, phase = Phase.WB)
 
     case 7 => // zdv
-      val res = Instructions.YDV(m.opcode, m.operand, m.ip, m.regs)
+      val res = Instructions.YDV(m.operand, m.ip, m.regs)
       m.copy(aluRes = res, phase = Phase.WB)
 
 def writeBack: Step = m =>
