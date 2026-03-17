@@ -7,6 +7,5 @@ case class Registers(
     x: Int,
     y: Int,
     z: Int,
-    ip: Int = 0,
     out: Vector[Int] = Vector.empty
 )
