@@ -1,45 +1,58 @@
 package machine;
-
+// ALU eval
+// NOTE: the IP here is merely for jump evals
 object Instructions {
-  def execute(opcode: Int, operand: Int, r: Registers): Registers =
-    opcode match {
-      case 0 => // xdv
-        val shift = Operand.combo(operand, r).toInt
-        val res = r.x >> shift
-        r.copy(
-          x = res,
-          y = r.y,
-          z = r.z,
-          ip = r.ip + 2
-        )
-      case 1 => // yxl
-        val xor = Operand.literal(operand) ^ r.y
-        r.copy(x = r.x, y = xor, z = r.z, ip = r.ip + 2)
-      case 2 => // yst
-        val mod8 = Operand.combo(operand, r).toInt % 8
-        r.copy(x = r.x, y = mod8, z = r.z, ip = r.ip + 2)
-      case 3 => // jnz
-        if (r.x == 0) // do nothing, advance ip
-          r.copy(x = r.x, y = r.y, z = r.z, ip = r.ip + 2)
-        else
-          val literal = Operand.literal(operand)
-          r.copy(x = r.x, y = r.y, z = r.z, ip = literal)
-      case 4 => // yxz
-        val xor = r.y ^ r.z
-        r.copy(x = r.x, y = xor, z = r.z, ip = r.ip + 2)
-      case 5 => // out
-        val combo = Operand.combo(operand, r) % 8
-        val out = r.out.appended(combo)
-        r.copy(x = r.x, y = r.y, z = r.z, ip = r.ip + 2, out)
-      case 6 => // ydv
-        val shift = Operand.combo(operand, r).toInt
-        val res = r.x >> shift
-        r.copy(x = r.x, y = res, ip = r.ip + 2)
-      case 7 => // zdv
-        val shift = Operand.combo(operand, r).toInt
-        val res = r.x >> shift
-        r.copy(x = r.x, y = r.y, z = res, ip = r.ip + 2)
-      case _: Int => r
+  val XDV: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
+      val shift = Operand.eval(Operand.combo(operand), r)
+      val res = r.x >> shift
+      res
     }
 
+  val YXL: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
+      val res = Operand.literal(operand) ^ r.y
+      res
+    }
+
+  val YST: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
+      val res = Operand.eval(Operand.combo(operand), r) % 8
+      res
+    }
+
+  val JNZ: (Int, Int, Registers) => Int =
+    (operand, ip, r) => {
+      val res =
+        if r.x == 0 then
+          ip // NOTE: we DONT have to update it here, it's done in IF
+        else Operand.literal(operand)
+      res
+    }
+
+  val YXZ: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
+      val res = r.y ^ r.z
+      res
+    }
+
+  val OUT: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
+      val res = Operand.eval(Operand.combo(operand), r) % 8
+      res
+    }
+
+  val YDV: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
+      val shift = Operand.eval(Operand.combo(operand), r)
+      val res = r.x >> shift
+      res
+    }
+
+  val ZDV: (Int, Int, Registers) => Int =
+    (operand, _, r) => {
+      val shift = Operand.eval(Operand.combo(operand), r)
+      val res = r.x >> shift
+      res
+    }
 }
