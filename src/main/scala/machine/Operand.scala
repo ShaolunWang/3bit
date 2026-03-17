@@ -29,4 +29,8 @@ object Operand {
       case ComboOperand.Z          => r.z
 
   }
+  // wrapper method for combo |> eval
+  def get(operand: Int, r: Registers): Int = {
+    eval(combo(operand), r)
+  }
 }
