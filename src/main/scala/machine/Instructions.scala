@@ -4,7 +4,7 @@ package machine;
 object Instructions {
   val XDV: (Int, Int, Registers) => Int =
     (operand, _, r) => {
-      val shift = Operand.eval(Operand.combo(operand), r)
+      val shift = Operand.get(operand, r)
       val res = r.x >> shift
       res
     }
@@ -17,7 +17,7 @@ object Instructions {
 
   val YST: (Int, Int, Registers) => Int =
     (operand, _, r) => {
-      val res = Operand.eval(Operand.combo(operand), r) % 8
+      val res = Operand.get(operand, r) % 8
       res
     }
 
@@ -38,20 +38,20 @@ object Instructions {
 
   val OUT: (Int, Int, Registers) => Int =
     (operand, _, r) => {
-      val res = Operand.eval(Operand.combo(operand), r) % 8
+      val res = Operand.get(operand, r) % 8
       res
     }
 
   val YDV: (Int, Int, Registers) => Int =
     (operand, _, r) => {
-      val shift = Operand.eval(Operand.combo(operand), r)
+      val shift = Operand.get(operand, r)
       val res = r.x >> shift
       res
     }
 
   val ZDV: (Int, Int, Registers) => Int =
     (operand, _, r) => {
-      val shift = Operand.eval(Operand.combo(operand), r)
+      val shift = Operand.get(operand, r)
       val res = r.x >> shift
       res
     }
