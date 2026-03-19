@@ -19,6 +19,14 @@ case class Machine(
 def step3(m: Machine): Machine =
   writeBack(execute(fetch(m)))
 
+def run(m: Machine): Machine =
+// basically only keep the last one
+// since we are doing .next()
+  Iterator
+    .iterate(m)(step3)
+    .dropWhile(_.ip < m.program.length)
+    .next()
+
 type Step = Machine => Machine
 
 def fetch: Step = m =>

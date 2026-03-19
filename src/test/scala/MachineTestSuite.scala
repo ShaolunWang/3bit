@@ -130,26 +130,21 @@ class MachineTestSuite extends FunSuite {
       aluRes = 0,
       ip = 0
     )
-
-    while (m.ip < prog.length) {
-      m = step3(m)
-    }
-
+    m = run(m)
     assertEquals(m.regs.out, Vector(0, 4, 2, 1, 4, 2, 5, 6, 7, 3, 1, 0))
   }
   test("example 2") {
     val prog = Vector(0, 3, 5, 4, 3, 0)
     val reg = Registers(x = 8642024, y = 0, z = 0, out = Vector())
     var m = Machine(
-      regs = Registers(x = 3729, y = 0, z = 0, out = Vector()),
+      regs = reg,
       program = prog,
       opcode = 0,
       operand = 0,
       aluRes = 0,
       ip = 0
     )
-    while (m.ip < prog.length) {
-      m = step3(m)
-    }
+    m = run(m)
+    assertEquals(m.regs.out, Vector(5, 7, 6, 5, 7, 0, 4, 0))
   }
 }
