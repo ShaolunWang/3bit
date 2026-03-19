@@ -16,6 +16,9 @@ case class Machine(
     ip: Int
 )
 
+def step3(m: Machine): Machine =
+  writeBack(execute(fetch(m)))
+
 type Step = Machine => Machine
 
 def fetch: Step = m =>

@@ -4,9 +4,6 @@ import munit.FunSuite
 
 class MachineTestSuite extends FunSuite {
 
-  def step3(m: Machine): Machine =
-    writeBack(execute(fetch(m)))
-
   test("IF stage") {
     val m = Machine(
       regs = Registers(0, 0, 0),
@@ -121,5 +118,38 @@ class MachineTestSuite extends FunSuite {
 
     assertEquals(m2.regs.x, 4)
     assertEquals(m2.regs.out, Vector(4))
+  }
+
+  test("example 1") {
+    val prog = Vector(0, 1, 5, 4, 3, 0)
+    var m = Machine(
+      regs = Registers(x = 3729, y = 0, z = 0, out = Vector()),
+      program = prog,
+      opcode = 0,
+      operand = 0,
+      aluRes = 0,
+      ip = 0
+    )
+
+    while (m.ip < prog.length) {
+      m = step3(m)
+    }
+
+    assertEquals(m.regs.out, Vector(0, 4, 2, 1, 4, 2, 5, 6, 7, 3, 1, 0))
+  }
+  test("example 2") {
+    val prog = Vector(0, 3, 5, 4, 3, 0)
+    val reg = Registers(x = 8642024, y = 0, z = 0, out = Vector())
+    var m = Machine(
+      regs = Registers(x = 3729, y = 0, z = 0, out = Vector()),
+      program = prog,
+      opcode = 0,
+      operand = 0,
+      aluRes = 0,
+      ip = 0
+    )
+    while (m.ip < prog.length) {
+      m = step3(m)
+    }
   }
 }
