@@ -10,10 +10,10 @@ case class Machine(
     regs: Registers,
     program: Vector[Int],
     phase: Phase = Phase.IF, // we start with IF as initial state
-    opcode: Int,
-    operand: Int,
-    aluRes: Int,
-    ip: Int
+    opcode: Int = 0,
+    operand: Int = 0,
+    aluRes: Int = 0,
+    ip: Int = 0
 )
 
 def step3(m: Machine): Machine =

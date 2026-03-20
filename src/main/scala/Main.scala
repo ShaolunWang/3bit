@@ -3,11 +3,12 @@ import machine.Registers
 import machine.step3
 import machine.fetch
 import machine.execute
+import machine.InputParser
 
-@main def main(): Unit =
-  val prog = Vector(0, 1, 5, 4, 3, 0)
+@main def main(file: String): Unit =
+  val (reg, prog) = InputParser.parse(file)
   var m = Machine(
-    regs = Registers(x = 3729, y = 0, z = 0, out = Vector()),
+    regs = reg,
     program = prog,
     opcode = 0,
     operand = 0,
